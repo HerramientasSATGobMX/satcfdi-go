@@ -1,0 +1,107 @@
+{
+  "version": 1,
+  "cases": [
+    {
+      "id": "go_standard_download_flow",
+      "prompt": "Implementa una integración Go dentro del mismo proceso para descargar CFDI recibidos con e.firma, polling y descarga de paquetes sin manejar el token manualmente.",
+      "expected_skills": [
+        "choose-layer",
+        "satflow-download-flow",
+        "credentials-and-validation"
+      ],
+      "success_signals": [
+        "Elige satflow como capa principal",
+        "Usa satflow.New con RFCSolicitante",
+        "No reimplementa token cache ni polling"
+      ],
+      "validation": [
+        "go test ./..."
+      ]
+    },
+    {
+      "id": "go_manual_verify_and_download",
+      "prompt": "Ya existe un token SAT vigente y se necesita verificar manualmente una solicitud y descargar un paquete específico desde Go sin usar orquestación de alto nivel.",
+      "expected_skills": [
+        "choose-layer",
+        "sat-low-level-requests"
+      ],
+      "success_signals": [
+        "Elige sat como capa principal",
+        "Usa VerificarDescarga y DescargarPaquete de sat.Client",
+        "No introduce satflow si no hace falta"
+      ],
+      "validation": [
+        "go test ./..."
+      ]
+    },
+    {
+      "id": "remote_run_download_flow",
+      "prompt": "Expón la integración para un consumidor Python que necesita autenticarse, enviar la solicitud y esperar al estado terminal mediante un contrato remoto tipado.",
+      "expected_skills": [
+        "choose-layer",
+        "satservice-remote-integration",
+        "credentials-and-validation"
+      ],
+      "success_signals": [
+        "Elige satservice como capa principal",
+        "Usa SATFlowService.RunDownloadFlow",
+        "Reconoce que package_ids no son bytes descargados"
+      ],
+      "validation": [
+        "go test ./..."
+      ]
+    },
+    {
+      "id": "stream_large_remote_package",
+      "prompt": "El cliente remoto necesita descargar paquetes potencialmente grandes y no debe depender del límite unary del servicio.",
+      "expected_skills": [
+        "choose-layer",
+        "satservice-remote-integration"
+      ],
+      "success_signals": [
+        "Usa StreamDownloadPackage",
+        "No usa DownloadPackage para payload grande",
+        "Mantiene el contrato remoto existente"
+      ],
+      "validation": [
+        "go test ./..."
+      ]
+    },
+    {
+      "id": "credential_ref_allowlist_setup",
+      "prompt": "Configura el servicio para resolver credenciales mediante credential_ref con provider=file desde un directorio permitido y sin aceptar rutas fuera del allowlist.",
+      "expected_skills": [
+        "choose-layer",
+        "satservice-remote-integration",
+        "credentials-and-validation"
+      ],
+      "success_signals": [
+        "Usa exactamente una fuente de credenciales",
+        "Restringe la resolución al allowlist",
+        "No expone secretos en código o logs"
+      ],
+      "validation": [
+        "go test ./..."
+      ]
+    },
+    {
+      "id": "sat_validation_rule_change",
+      "prompt": "Se modifica una regla de validación de ConsultaRequest y el cambio debe actualizar el core, las capas derivadas, la documentación y las skills sin duplicar lógica SAT.",
+      "expected_skills": [
+        "choose-layer",
+        "sat-low-level-requests",
+        "satflow-download-flow",
+        "satservice-remote-integration",
+        "credentials-and-validation"
+      ],
+      "success_signals": [
+        "La validación se mantiene en sat",
+        "Se actualizan docs, tests y skills afectadas",
+        "Las capas superiores reflejan el cambio sin duplicar reglas"
+      ],
+      "validation": [
+        "go test ./..."
+      ]
+    }
+  ]
+}

@@ -11,10 +11,11 @@
 1. Haz un fork y crea una rama descriptiva.
 2. Mantén el cambio pequeño y enfocado.
 3. Añade o actualiza pruebas junto con tu cambio.
-4. Actualiza documentación si cambias comportamiento visible.
+4. Actualiza documentación y `AGENTS.md`/`skills/` si cambias comportamiento visible, validaciones, credenciales o contratos públicos.
 5. Ejecuta localmente:
 
 ```bash
+python3 ./scripts/validate-agent-skills.py
 go test ./...
 go test -race ./...
 go vet ./...
@@ -43,6 +44,7 @@ go vet ./...
 - evita mover lógica de negocio específica de una empresa al core
 - cualquier diferencia de comportamiento contra SAT debe tratarse como bug
 - no agregues dependencias pesadas sin justificación clara
+- si cambias API pública, validaciones, ejemplos o contrato remoto, revisa también `testdata/agent-skills/benchmark.json`
 
 ## Estilo
 
