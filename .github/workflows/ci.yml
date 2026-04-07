@@ -31,6 +31,9 @@ jobs:
         with:
           python-version: '3.13'
 
+      - name: Validar Agent Skills
+        run: python ./scripts/validate-agent-skills.py
+
       - name: Configurar PHP
         uses: shivammathur/setup-php@v2
         with:

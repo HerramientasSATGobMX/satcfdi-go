@@ -208,8 +208,23 @@ Guías:
 - [docs/smoke-test.md](./docs/smoke-test.md)
 - [docs/service.md](./docs/service.md)
 
+## Agent Skills
+
+El repo incluye un router para agentes en [AGENTS.md](./AGENTS.md) y skills repo-locales en [`./skills`](./skills) para ayudar a integradores y contribuidores a elegir la capa correcta, respetar reglas SAT y mantener el servicio tipado sin drift documental.
+
+Valídalos con:
+
+```bash
+python3 ./scripts/validate-agent-skills.py
+```
+
+Casos de benchmark manual para prompts reales:
+
+- [testdata/agent-skills/benchmark.json](./testdata/agent-skills/benchmark.json)
+
 ## Documentación adicional
 
+- [AGENTS.md](./AGENTS.md)
 - [examples/README.md](./examples/README.md)
 - [docs/integration.md](./docs/integration.md)
 - [docs/service.md](./docs/service.md)
